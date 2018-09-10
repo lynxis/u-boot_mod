@@ -12,6 +12,10 @@ ifeq ($(ETH_CONFIG), _s27)
 OBJS	+= ../common/athrs27_phy.o
 endif
 
+ifdef CONFIG_MDIO_GPIO
+ OBJS   += ../common/mdio_gpio.o
+endif
+
 $(LIB):	.depend $(OBJS) $(SOBJS)
 	$(AR) crv $@ $(OBJS) $(SOBJS)
 
