@@ -4,15 +4,38 @@
  * SPDX-License-Identifier: GPL-2.0
  */
 
+#ifndef SOC_QCA_GPIOS
+#define SOC_QCA_GPIOS
+
 #include <soc/qca_soc_common.h>
 
-#ifndef _CMD_QCAGPIO_H_
-#define _CMD_QCAGPIO_H_
-
-#if defined(CONFIG_CMD_GPIO)
+#define _GPIO_OUT_MUX_MAX	127
+#define _GPIO_NUM_MAX		(QCA_GPIO_COUNT - 1)
 
 #if (SOC_TYPE & QCA_AR933X_SOC)
+void gpio_set_func(u32 func, u32 enable);
+#else
+void gpio_func_gate(u8 disable, u8 enable);
+u32 gpio_in_func_to_gpio(u8 func);
+u8 gpio_get_out_func(u32 gpio_num);
+void gpio_set_in_out_func(u32 gpio_num, u8 func, u32 output);
+#endif /* SOC_TYPE & QCA_AR933X_SOC */
 
+void gpio_set_jtag(u32 enable);
+void gpio_set_val(u32 gpio_mask, u32 high);
+void gpio_set_dir(u32 gpio_mask, u32 output);
+void gpio_list_cfg(void);
+#if (SOC_TYPE & QCA_AR933X_SOC)
+void gpio_list_funcs(void);
+#else
+void gpio_list_in_out_funcs(void);
+#endif
+
+int gpio_get_value(u32 gpio);
+
+/* gpio_func descriptions */
+
+#if (SOC_TYPE & QCA_AR933X_SOC)
 typedef struct {
 	u32 reg_mask;
 	u32 gpio_mask;
@@ -946,6 +969,4 @@ static u32 gpio_out_funcs_cnt = sizeof(gpio_out_funcs) / sizeof(gpio_out_func);
 
 #endif /* SOC_TYPE & QCA_AR933X_SOC */
 
-#endif /* CONFIG_CMD_GPIO */
-
-#endif /* _CMD_QCAGPIO_H_ */
+#endif /* SOC_QCA_GPIOS */
