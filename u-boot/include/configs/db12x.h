@@ -110,6 +110,12 @@
 				"rootfstype=squashfs init=/sbin/init "\
 				"mtdparts=ath-nor0:256k(u-boot),64k(u-boot-env),16000k(firmware),64k(art)ro"
 
+#elif defined(CONFIG_FOR_TPLINK_EAP220_V1)
+
+	#define CONFIG_BOOTARGS	"console=ttyS0,115200 root=31:03 "\
+				"rootfstype=squashfs init=/sbin/init "\
+				"mtdparts=ath-nor0:128k(u-boot),64k(u-boot-env),64k(mac),16064k(firmware),64k(art)"
+
 #elif defined(CONFIG_FOR_TPLINK_WDR3500_V1) ||\
       defined(CONFIG_FOR_TPLINK_WDR3600_V1) ||\
       defined(CONFIG_FOR_TPLINK_WDR43X0_V1)
@@ -154,6 +160,10 @@
 
 	#define CFG_LOAD_ADDR		0x9F680000
 
+#elif defined(CONFIG_FOR_TPLINK_EAP220_V1)
+
+	#define CFG_LOAD_ADDR		0x9F040000
+
 #else
 
 	#define CFG_LOAD_ADDR		0x9F020000
@@ -190,6 +200,12 @@
 	#define CFG_ENV_SIZE		0xFC00
 	#define CFG_ENV_SECT_SIZE	0x10000
 
+#elif defined(CONFIG_FOR_TPLINK_EAP220_V1)
+
+	#define CFG_ENV_ADDR		0x9F020000
+	#define CFG_ENV_SIZE		0x10000
+	#define CFG_ENV_SECT_SIZE	0x10000
+
 #else
 
 	#define CFG_ENV_ADDR		0x9F01EC00
@@ -224,6 +240,12 @@
 	#define OFFSET_MAC_DATA_BLOCK		0xFF0000
 	#define OFFSET_MAC_DATA_BLOCK_LENGTH	0x010000
 	#define OFFSET_MAC_ADDRESS		0x000000
+
+#elif defined(CONFIG_FOR_TPLINK_EAP220_V1)
+
+	#define OFFSET_MAC_DATA_BLOCK		0x030000
+	#define OFFSET_MAC_DATA_BLOCK_LENGTH	0x010000
+	#define OFFSET_MAC_ADDRESS		0x000008
 
 #else
 

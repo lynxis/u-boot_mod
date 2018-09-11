@@ -570,6 +570,16 @@ p2w_r602n: qca953x_common
 	@$(call define_add,CFG_ATH_GMAC_NMACS,2)
 	@$(MKCONFIG) -a ap143 mips mips ap143 ar7240 ar7240
 
+tp-link_eap220_v1: ar934x_common
+	@$(call config_init,TP-Link EAP220 v1,eap220-v1,16,4,1,QCA_AR9344_SOC)
+	@$(call define_add,CONFIG_FOR_TPLINK_EAP220_V1,1)
+	@$(call define_add,CFG_AG7240_NMACS,1)
+	@$(call define_add,CONFIG_MDIO_GPIO,1)
+	@$(call define_add,CONFIG_GENERIC_PHY,1)
+	@$(call define_add,CONFIG_PHY_ATHEROS,1)
+	@$(call define_add,CONFIG_PCI,1)
+	@$(MKCONFIG) -a db12x mips mips db12x ar7240 ar7240
+
 tp-link_tl-mr10u_v1: ar933x_common lsdk_kernel
 	@$(call config_init,TP-Link TL-MR10U v1,tl-mr10u-v1,4,11,,QCA_AR9331_SOC)
 	@$(call define_add,CONFIG_FOR_TPLINK_MR10U_V1,1)
