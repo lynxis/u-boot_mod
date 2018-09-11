@@ -127,4 +127,7 @@ struct ustat {
 	char			f_fpack[6];
 };
 
+typedef	short __be16;
+typedef	int __be32;
+
 #endif /* _LINUX_TYPES_H */
