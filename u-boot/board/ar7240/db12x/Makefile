@@ -12,6 +12,12 @@ ifeq ($(ETH_CONFIG), _s27)
 OBJS	+= ../common/athrs27_phy.o
 endif
 
+ifeq ($(ETH_CONFIG), _genericphy)
+OBJS	+= ../common/phy/atheros.o
+OBJS	+= ../common/phy/phy.o
+OBJS	+= ../common/phy/legacy.o
+endif
+
 ifdef CONFIG_MDIO_GPIO
  OBJS   += ../common/mdio_gpio.o
 endif

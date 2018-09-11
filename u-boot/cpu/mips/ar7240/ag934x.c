@@ -276,7 +276,9 @@ void ag7240_mii_setup(ag7240_mac_t *mac)
 					}
 #endif
 				}
-
+#ifdef CONFIG_GENERIC_PHY
+			ar7240_reg_wr(AG7240_ETH_CFG, AG7240_ETH_CFG_RGMII_GE0);
+#endif
 				//if(check_cnt == 11)
 				//printf("%s: MDC check failed\n", __func__);
 			}
@@ -355,6 +357,10 @@ static int ag7240_check_link(ag7240_mac_t *mac)
 			ar7240_reg_wr(AR7242_ETH_XMII_CONFIG, 0x82000000);
 			ar7240_reg_wr(AG7240_ETH_CFG, 0x000c0001);
 		}
+#elif CONFIG_GENERIC_PHY
+		if(is_wasp() && (mac->mac_unit == 0)){
+			ar7240_reg_wr(AR7242_ETH_XMII_CONFIG, 0x06000000);
+		}
 #else
 		if (is_wasp() && (mac->mac_unit == 0) && !is_f2e()){
 			ar7240_reg_wr(AR7242_ETH_XMII_CONFIG, 0x06000000);
@@ -379,6 +385,12 @@ static int ag7240_check_link(ag7240_mac_t *mac)
 			ar7240_reg_rmw_clear(AG7240_ETH_CFG, AG7240_ETH_CFG_RXD_DELAY);
 			ar7240_reg_rmw_clear(AG7240_ETH_CFG, AG7240_ETH_CFG_RDV_DELAY);
 		}
+#ifdef CONFIG_GENERIC_PHY
+		if (is_wasp() && mac->mac_unit == 0) {
+			ar7240_reg_rmw_clear(AG7240_ETH_CFG, AG7240_ETH_CFG_RXD_DELAY);
+			ar7240_reg_rmw_clear(AG7240_ETH_CFG, AG7240_ETH_CFG_RDV_DELAY);
+		}
+#endif
 		break;
 
 	case _10BASET:
@@ -394,6 +406,12 @@ static int ag7240_check_link(ag7240_mac_t *mac)
 			ar7240_reg_rmw_clear(AG7240_ETH_CFG,AG7240_ETH_CFG_RXD_DELAY);
 			ar7240_reg_rmw_clear(AG7240_ETH_CFG,AG7240_ETH_CFG_RDV_DELAY);
 		}
+#ifdef CONFIG_GENERIC_PHY
+		if (is_wasp() && mac->mac_unit == 0) {
+			ar7240_reg_rmw_clear(AG7240_ETH_CFG,AG7240_ETH_CFG_RXD_DELAY);
+			ar7240_reg_rmw_clear(AG7240_ETH_CFG,AG7240_ETH_CFG_RDV_DELAY);
+		}
+#endif
 
 		if (is_f2e()) {
 			ar7240_reg_rmw_clear(AG7240_ETH_CFG, AG7240_ETH_CFG_RMII_HISPD_GE0);

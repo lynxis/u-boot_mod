@@ -29,6 +29,13 @@ extern int athrs27_phy_setup(int unit);
 extern int athrs27_phy_is_fdx(int unit);
 #endif
 
+#ifdef CONFIG_GENERIC_PHY
+extern int gen_phy_is_up(int unit);
+extern int gen_phy_speed(int unit);
+extern int gen_phy_setup(int unit, struct eth_device *dev);
+extern int gen_phy_is_fdx(int unit);
+#endif
+
 static inline void ag7240_phy_setup(int unit){
 #ifdef CONFIG_AR7242_S16_PHY
 	if ((is_ar7242() || is_wasp()) && (unit==0)) {
@@ -52,6 +59,9 @@ static inline void ag7240_phy_setup(int unit){
 #endif
 #ifdef CONFIG_VIR_PHY
         athr_vir_phy_setup(unit);
+#endif
+#ifdef CONFIG_GENERIC_PHY
+	gen_phy_setup(unit, dev);
 #endif
     }
 }
@@ -80,6 +90,9 @@ static inline void ag7240_phy_link(int unit, int *link){
 #ifdef CONFIG_VIR_PHY
          *link = athr_vir_phy_is_up(unit);
 #endif
+#ifdef CONFIG_GENERIC_PHY
+         *link = gen_phy_is_up(unit);
+#endif
     }
 }
 
@@ -107,6 +120,9 @@ static inline void ag7240_phy_duplex(int unit, int *duplex){
 #ifdef CONFIG_VIR_PHY
         *duplex = athr_vir_phy_is_fdx(unit);
 #endif
+#ifdef CONFIG_GENERIC_PHY
+        *duplex = gen_phy_is_fdx(unit);
+#endif
     }
 }
 
@@ -133,6 +149,9 @@ static inline void ag7240_phy_speed(int unit, int *speed){
 #endif
 #ifdef CONFIG_VIR_PHY
         *speed = athr_vir_phy_speed(unit);
+#endif
+#ifdef CONFIG_GENERIC_PHY
+        *speed = gen_phy_speed(unit);
 #endif
     }
 }
