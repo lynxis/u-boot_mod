@@ -36,7 +36,7 @@ extern int gen_phy_setup(int unit, struct eth_device *dev);
 extern int gen_phy_is_fdx(int unit);
 #endif
 
-static inline void ag7240_phy_setup(int unit){
+static inline void ag7240_phy_setup(int unit, struct eth_device *dev){
 #ifdef CONFIG_AR7242_S16_PHY
 	if ((is_ar7242() || is_wasp()) && (unit==0)) {
 		athrs16_phy_setup(unit);

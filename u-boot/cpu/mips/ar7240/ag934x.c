@@ -675,7 +675,7 @@ int ag7240_enet_initialize(bd_t * bis)
 #endif
 		}
 
-		ag7240_phy_setup(ag7240_macs[i]->mac_unit);
+		ag7240_phy_setup(ag7240_macs[i]->mac_unit, dev[i]);
 		//printf("%s up\n",dev[i]->name);
 	}
 
